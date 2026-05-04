@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dara Maison - Informe del Proyecto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e70074;
+      --dark: #0a0a0a;
+      --surface: #1a1a1a;
+      --text: #ffffff;
+      --text-muted: #8a8a8a;
+      --border: rgba(231, 0, 116, 0.2);
+      --gold: #d4a574;
+    }
+
+    @media print {
+      body { background: white !important; color: #1a1a1a !important; }
+      .report { color: #1a1a1a !important; }
+      h1, h2, h3 { color: var(--primary) !important; }
+      .cover { background: #0a0a0a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover h1, .cover h2, .cover p { color: white !important; }
+      .cover .cover-line { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      table { page-break-inside: auto; }
+    tr { page-break-inside: avoid; }
+    img { page-break-inside: avoid; max-width: 100% !important; height: auto !important; }
+    pre, code { background: #f5f5f5 !important; }
+      .page-break { page-break-before: always; }
+      .sidebar-info { background: #f9f9f9 !important; }
+      a { color: var(--primary) !important; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .cover-line {
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+      margin-bottom: 2rem;
+    }
+
+    .cover h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+
+    .cover p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 2rem;
+    }
+
+    .report {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+      background: var(--dark);
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem 2.5rem;
+      margin: 3rem 0;
+    }
+
+    .toc h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+    }
+
+    .toc li {
+      counter-increment: toc;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .toc li::before {
+      content: counter(toc, decimal-leading-zero);
+      color: var(--primary);
+      font-weight: 600;
+      margin-right: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .toc a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .toc a:hover { color: var(--primary); }
+
+    h1.section {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 3rem 0 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--text);
+      margin: 2rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin: 1.5rem 0 0.8rem;
+    }
+
+    p { margin-bottom: 1rem; color: var(--text-muted); }
+    p strong { color: var(--text); }
+
+    ul, ol {
+      margin: 1rem 0 1rem 1.5rem;
+      color: var(--text-muted);
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background: rgba(231, 0, 116, 0.1);
+      color: var(--primary);
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+    }
+
+    td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    code {
+      background: rgba(231, 0, 116, 0.1);
+      color: var(--primary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.85rem;
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-muted);
+    }
+
+    blockquote {
+      background: rgba(231, 0, 116, 0.05);
+      border-left: 3px solid var(--primary);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    blockquote p { color: var(--text-muted); margin: 0; }
+
+    .sidebar-info {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .sidebar-info h3 {
+      margin-top: 0;
+    }
+
+    .step {
+      margin: 2rem 0;
+    }
+
+    .step-number {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-right: 0.8rem;
+    }
+
+    .folder-tree {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      white-space: pre;
+    }
+
+    .folder-tree .comment { color: var(--gold); }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(231, 0, 116, 0.15);
+      color: var(--primary);
+    }
+
+    .badge.no { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+    .badge.yes { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .badge.admin { background: rgba(231, 0, 116, 0.15); color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="cover">
+    <div class="cover-line"></div>
+    <h1>Dara Maison</h1>
+    <h2>Informe Completo del Proyecto</h2>
+    <div class="cover-line"></div>
+    <p>E-Commerce &middot; React &middot; Node.js &middot; PostgreSQL</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">2026</p>
+  </div>
+
+  <!-- REPORT CONTENT -->
+  <div class="report">
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+      <h3>Tabla de Contenidos</h3>
+<ol>
+        <li><a href="#descripcion">Descripción General</a></li>
+        <li><a href="#tecnologias">Tecnologías Utilizadas</a></li>
+        <li><a href="#estructura">Estructura del Proyecto</a></li>
+        <li><a href="#modelos">Modelos de Base de Datos</a></li>
+        <li><a href="#funcionalidades">Funcionalidades Implementadas</a></li>
+        <li><a href="#api">Rutas de la API</a></li>
+        <li><a href="#instalacion">Guía de Instalación</a></li>
+        <li><a href="#puertos">Puertos</a></li>
+        <li><a href="#variables">Variables de Entorno</a></li>
+        <li><a href="#comandos">Comandos Útiles</a></li>
+        <li><a href="#capturas">Capturas de Pantalla</a></li>
+        <li><a href="#notas">Notas Importantes</a></li>
+      </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <h1 class="section" id="descripcion">1. Descripción General</h1>
+
+    <p><strong>Dara Maison</strong> es una tienda online de e-commerce con estética de alta moda y música urbana. Vende productos de tres categorías: <strong>Cosmética</strong>, <strong>Accesorios</strong> y <strong>Moda Urbana</strong>. Los pedidos se finalizan por <strong>WhatsApp</strong> (no hay pasarela de pago).</p>
+
+    <div class="sidebar-info">
+      <h3>Identidad Visual</h3>
+      <ul>
+        <li><strong>Color principal:</strong> <code>#e70074</code> (rosa/magenta)</li>
+        <li><strong>Fondo:</strong> Negro tipo gris oscuro <code>#0a0a0a</code></li>
+        <li><strong>Texto:</strong> Blanco</li>
+        <li><strong>Tipografía:</strong> Playfair Display (títulos) + Inter (cuerpo)</li>
+      </ul>
+    </div>
+
+    <p><strong>Frase de marca:</strong> <em>"Tu identidad es tu espectáculo."</em></p>
+
+    <!-- SECTION 2 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="tecnologias">2. Tecnologías Utilizadas</h1>
+
+    <table>
+      <thead><tr><th>Capa</th><th>Tecnología</th></tr></thead>
+      <tbody>
+        <tr><td>Frontend</td><td>React 18 + Vite 5</td></tr>
+        <tr><td>Router</td><td>React Router DOM 6</td></tr>
+        <tr><td>HTTP Client</td><td>Axios</td></tr>
+        <tr><td>Backend</td><td>Node.js + Express 4</td></tr>
+        <tr><td>Base de Datos</td><td>PostgreSQL</td></tr>
+        <tr><td>ORM</td><td>Sequelize 6</td></tr>
+        <tr><td>Autenticación</td><td>JWT (jsonwebtoken)</td></tr>
+        <tr><td>Passwords</td><td>bcryptjs</td></tr>
+        <tr><td>Uploads</td><td>Multer (imágenes)</td></tr>
+        <tr><td>Estilos</td><td>CSS puro (sin framework)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 3 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="estructura">3. Estructura del Proyecto</h1>
+
+    <pre class="folder-tree">Coil/
+├── client/                          <span class="comment"># Frontend React</span>
+│   ├── src/
+│   │   ├── App.jsx                  <span class="comment"># Toda la app (componentes + rutas)</span>
+│   │   ├── index.css                <span class="comment"># Estilos globales</span>
+│   │   ├── main.jsx                 <span class="comment"># Entry point de React</span>
+│   │   └── index.html               <span class="comment"># HTML base</span>
+│   ├── vite.config.js               <span class="comment"># Config de Vite + proxy API</span>
+│   └── package.json
+│
+├── server/                          <span class="comment"># Backend Express</span>
+│   ├── index.js                     <span class="comment"># Entry point del servidor</span>
+│   ├── models/
+│   │   └── index.js                 <span class="comment"># Modelos Sequelize + asociaciones</span>
+│   ├── routes/
+│   │   ├── auth.js                  <span class="comment"># Login, registro, me</span>
+│   │   ├── productos.js             <span class="comment"># CRUD productos + imágenes</span>
+│   │   ├── categorias.js            <span class="comment"># CRUD categorías</span>
+│   │   ├── descuentos.js            <span class="comment"># CRUD descuentos por producto</span>
+│   │   ├── cupones.js               <span class="comment"># CRUD cupones de descuento</span>
+│   │   ├── pedidos.js               <span class="comment"># CRUD pedidos + estados</span>
+│   │   ├── contenidos.js            <span class="comment"># CRUD videos (YouTube, TikTok, IG)</span>
+│   │   ├── config.js                <span class="comment"># Configuración de la tienda</span>
+│   │   └── slides.js                <span class="comment"># CRUD slides del hero</span>
+│   ├── middleware/
+│   │   └── auth.js                  <span class="comment"># Middleware JWT (auth + admin)</span>
+│   ├── uploads/                     <span class="comment"># Imágenes subidas (productos + slides)</span>
+│   ├── .env                         <span class="comment"># Variables de entorno</span>
+│   └── package.json
+│
+└── SPEC.md                          <span class="comment"># Especificación original</span></pre>
+
+    <!-- SECTION 4 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="modelos">4. Modelos de Base de Datos (PostgreSQL)</h1>
+
+    <table>
+      <thead><tr><th>Modelo</th><th>Campos principales</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Usuario</strong></td><td>id, nombre, email, telefono, password, rol (cliente/admin)</td></tr>
+        <tr><td><strong>Categoria</strong></td><td>id, nombre, descuento_porcentaje</td></tr>
+        <tr><td><strong>Producto</strong></td><td>id, nombre, titulo, descripcion, imagen_url, precio, categoria_id, activo</td></tr>
+        <tr><td><strong>DescuentoProducto</strong></td><td>id, producto_id, descuento_porcentaje</td></tr>
+        <tr><td><strong>Cupon</strong></td><td>id, codigo, descuento_porcentaje, activo, usado_por</td></tr>
+        <tr><td><strong>Pedido</strong></td><td>id, usuario_id, estado, total, cupon_aplicado, descuento_total</td></tr>
+        <tr><td><strong>PedidoItem</strong></td><td>id, pedido_id, producto_id, cantidad, precio</td></tr>
+        <tr><td><strong>Contenido</strong></td><td>id, tipo (youtube/tiktok/instagram), url, orden</td></tr>
+        <tr><td><strong>Config</strong></td><td>id, nombre_tienda, titulo_pagina, descripcion, bienvenido_texto</td></tr>
+        <tr><td><strong>Slide</strong></td><td>id, imagen_url, titulo, subtitulo, orden, activo</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Asociaciones</h3>
+    <ul>
+      <li>Categoria → Productos (1 a muchos)</li>
+      <li>Producto → Descuentos (1 a muchos)</li>
+      <li>Usuario → Pedidos (1 a muchos)</li>
+      <li>Pedido → PedidoItems (1 a muchos)</li>
+      <li>PedidoItem → Producto (muchos a 1)</li>
+    </ul>
+
+    <!-- SECTION 5 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="funcionalidades">5. Funcionalidades Implementadas</h1>
+
+    <h2>Frontend (Pública)</h2>
+    <ul>
+      <li>Landing page con slider de imágenes (auto-slide cada 4s)</li>
+      <li>Catálogo de productos con descuentos</li>
+      <li>Carrito de compras con cantidades (+/-)</li>
+      <li>Aplicar cupones de descuento</li>
+      <li>Checkout por WhatsApp (envía resumen del pedido)</li>
+      <li>Registro e inicio de sesión</li>
+      <li>Panel de usuario con historial de pedidos</li>
+      <li>Videos embebidos (YouTube) y enlaces (TikTok/Instagram)</li>
+      <li>Título dinámico según configuración</li>
+    </ul>
+
+    <h2>Panel Admin (requiere rol admin)</h2>
+    <ul>
+      <li><strong>Dashboard</strong> — Resumen de pedidos por estado</li>
+      <li><strong>Productos</strong> — CRUD completo con upload de imagen</li>
+      <li><strong>Categorías</strong> — CRUD con descuento por categoría</li>
+      <li><strong>Descuentos</strong> — Asignar % descuento a productos específicos</li>
+      <li><strong>Slides</strong> — Upload de 4+ imágenes para el slider del index</li>
+      <li><strong>Contenido</strong> — Agregar videos de YouTube, TikTok, Instagram</li>
+      <li><strong>Configuración</strong> — Nombre, título, descripción, texto de bienvenida</li>
+      <li><strong>Pedidos</strong> — Ver y cambiar estado (proceso → aprobado → enviado → entregado)</li>
+    </ul>
+
+    <!-- SECTION 6 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="api">6. Rutas de la API</h1>
+
+    <table>
+      <thead><tr><th>Método</th><th>Ruta</th><th>Descripción</th><th>Auth</th></tr></thead>
+      <tbody>
+        <tr><td>POST</td><td><code>/api/auth/register</code></td><td>Registro de usuario</td><td><span class="badge no">No</span></td></tr>
+        <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Login</td><td><span class="badge no">No</span></td></tr>
+        <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Obtener usuario actual</td><td><span class="badge yes">Sí</span></td></tr>
+        <tr><td>GET</td><td><code>/api/productos</code></td><td>Listar productos activos</td><td><span class="badge no">No</span></td></tr>
+        <tr><td>GET</td><td><code>/api/productos/:id</code></td><td>Detalle producto</td><td><span class="badge no">No</span></td></tr>
+        <tr><td>POST</td><td><code>/api/productos</code></td><td>Crear producto</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>PUT</td><td><code>/api/productos/:id</code></td><td>Editar producto</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>DELETE</td><td><code>/api/productos/:id</code></td><td>Desactivar producto</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>GET</td><td><code>/api/categorias</code></td><td>Listar categorías</td><td><span class="badge no">No</span></td></tr>
+        <tr><td>POST</td><td><code>/api/categorias</code></td><td>Crear categoría</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>PUT</td><td><code>/api/categorias/:id</code></td><td>Editar categoría</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>DELETE</td><td><code>/api/categorias/:id</code></td><td>Eliminar categoría</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>CRUD</td><td><code>/api/descuentos/*</code></td><td>Gestión descuentos</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>CRUD</td><td><code>/api/cupones/*</code></td><td>Gestión cupones</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>CRUD</td><td><code>/api/pedidos/*</code></td><td>Gestión pedidos</td><td><span class="badge yes">Auth</span></td></tr>
+        <tr><td>CRUD</td><td><code>/api/contenidos/*</code></td><td>Gestión videos</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>GET/PUT</td><td><code>/api/config</code></td><td>Configuración tienda</td><td><span class="badge admin">Admin</span></td></tr>
+        <tr><td>CRUD</td><td><code>/api/slides/*</code></td><td>Gestión slides</td><td><span class="badge admin">Admin</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 7 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="instalacion">7. Guía de Instalación en Otro PC</h1>
+
+    <div class="step">
+      <h3><span class="step-number">1</span> Instalar Prerrequisitos</h3>
+      <p><strong>Node.js</strong> (v18 o superior) — Descargar: <a href="https://nodejs.org">nodejs.org</a><br>Verificar: <code>node -v</code></p>
+      <p><strong>PostgreSQL</strong> (v14 o superior) — Descargar: <a href="https://www.postgresql.org/download">postgresql.org</a><br>Durante instalación, recordar la contraseña del usuario <code>postgres</code><br>Verificar: <code>psql --version</code></p>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">2</span> Crear la Base de Datos (MANUAL)</h3>
+      <p>La base de datos <strong>se crea manualmente una sola vez</strong>. Las tablas se crean automáticamente al iniciar el servidor.</p>
+      <p>Desde pgAdmin: Click derecho en <strong>Databases</strong> → <strong>Create</strong> → <strong>Database</strong> → Nombre: <code>coil_shop</code></p>
+      <p>Desde terminal:</p>
+      <pre><code>psql -U postgres -c "CREATE DATABASE coil_shop;"</code></pre>
+      <blockquote><p><strong>Nota:</strong> Solo se crea la base de datos vacía. No necesitas crear tablas, el servidor las crea automáticamente.</p></blockquote>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">3</span> Clonar/Copiar el Proyecto</h3>
+      <p>Copiar la carpeta completa <code>Coil</code> al nuevo PC.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">4</span> Configurar el Servidor (Backend)</h3>
+      <pre><code>cd Coil\server
+npm install</code></pre>
+      <p>Crear/editar el archivo <code>server/.env</code>:</p>
+      <pre><code>PORT=3001
+DB_HOST=localhost
+DB_NAME=coil_shop
+DB_USER=postgres
+DB_PASSWORD=tu_contraseña_aqui
+DB_PORT=5432
+JWT_SECRET=cualquier_cadena_secreta_aqui
+WHATSAPP_NUMBER=57XXXXXXXXXX</code></pre>
+      <p><strong>Importante:</strong> Cambiar <code>DB_PASSWORD</code> por la contraseña real de PostgreSQL y <code>WHATSAPP_NUMBER</code> por el número real con código de país.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">5</span> Configurar el Cliente (Frontend)</h3>
+      <pre><code>cd Coil\client
+npm install</code></pre>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">6</span> Ejecutar la Aplicación</h3>
+      <p><strong>Opción A: Dos terminales (desarrollo)</strong></p>
+      <p>Terminal 1 — Servidor:</p>
+      <pre><code>cd Coil\server
+npm start</code></pre>
+      <p>Debe mostrar: <code>Base de datos sincronizada</code> + <code>Server running on port 3001</code></p>
+      <p>Terminal 2 — Cliente:</p>
+      <pre><code>cd Coil\client
+npm run dev</code></pre>
+      <p>La app estará en: <code>http://localhost:5173/</code></p>
+      <p><strong>Opción B: Solo servidor (producción)</strong></p>
+      <pre><code>cd Coil\client
+npm run build
+cd ..\server
+npm start</code></pre>
+      <p>La app estará en: <code>http://localhost:3001</code></p>
+    </div>
+
+    <div class="step">
+      <h3><span class="step-number">7</span> Crear el Primer Admin</h3>
+      <p>Registrarse normalmente desde el frontend. Luego cambiar el rol en la BD:</p>
+      <pre><code>UPDATE usuarios SET rol = 'admin' WHERE email = 'tu@email.com';</code></pre>
+      <p>O desde pgAdmin: tabla <code>usuarios</code> → cambiar <code>rol</code> de <code>cliente</code> a <code>admin</code>.</p>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="puertos">8. Puertos</h1>
+
+    <table>
+      <thead><tr><th>Servicio</th><th>Puerto</th></tr></thead>
+      <tbody>
+        <tr><td>Frontend (dev)</td><td>5173</td></tr>
+        <tr><td>Backend API</td><td>3001</td></tr>
+        <tr><td>PostgreSQL</td><td>5432</td></tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 9 -->
+    <h1 class="section" id="variables">9. Variables de Entorno (server/.env)</h1>
+
+    <table>
+      <thead><tr><th>Variable</th><th>Descripción</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>PORT</td><td>Puerto del servidor</td><td>3001</td></tr>
+        <tr><td>DB_HOST</td><td>Host de PostgreSQL</td><td>localhost</td></tr>
+        <tr><td>DB_NAME</td><td>Nombre de la BD</td><td>coil_shop</td></tr>
+        <tr><td>DB_USER</td><td>Usuario de PostgreSQL</td><td>postgres</td></tr>
+        <tr><td>DB_PASSWORD</td><td>Contraseña de PostgreSQL</td><td>root</td></tr>
+        <tr><td>DB_PORT</td><td>Puerto de PostgreSQL</td><td>5432</td></tr>
+        <tr><td>JWT_SECRET</td><td>Clave para tokens JWT</td><td>cualquier_cadena</td></tr>
+        <tr><td>WHATSAPP_NUMBER</td><td>Número WhatsApp para pedidos</td><td>573001234567</td></tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 10 -->
+    <h1 class="section" id="comandos">10. Comandos Útiles</h1>
+
+    <pre><code># Instalar dependencias del servidor
+cd Coil\server && npm install
+
+# Instalar dependencias del cliente
+cd Coil\client && npm install
+
+# Iniciar servidor
+cd Coil\server && npm start
+
+# Iniciar cliente en modo desarrollo
+cd Coil\client && npm run dev
+
+# Build de producción del cliente
+cd Coil\client && npm run build
+
+# Ver las tablas creadas
+psql -U postgres -d coil_shop -c "\dt"</code></pre>
+
+    <!-- SECTION 11 -->
+    <h1 class="section" id="notas">11. Notas Importantes</h1>
+
+    <ol>
+      <li><strong>La base de datos se crea manualmente</strong> (<code>CREATE DATABASE coil_shop;</code>). Las <strong>tablas se crean automáticamente</strong> al iniciar el servidor gracias a <code>sequelize.sync({ alter: true })</code> en <code>server/index.js</code>.</li>
+      <li><strong>Las imágenes</strong> se guardan en <code>server/uploads/</code> y <code>server/uploads/slides/</code>.</li>
+      <li><strong>Para producción</strong>, cambiar <code>JWT_SECRET</code> por una cadena segura y larga.</li>
+      <li><strong>Si hay errores de conexión a la BD</strong>, verificar que PostgreSQL esté corriendo como servicio y que la contraseña en <code>.env</code> sea correcta.</li>
+<li><strong>El proxy de Vite</strong> (<code>client/vite.config.js</code>) redirige <code>/api</code> y <code>/uploads</code> a <code>localhost:3001</code>. Esto funciona solo en desarrollo. En producción, el servidor Express sirve los archivos estáticos directamente.</li>
+    </ol>
+
+    <!-- SECTION 12 -->
+    <div class="page-break"></div>
+    <h1 class="section" id="capturas">12. Capturas de Pantalla</h1>
+
+    <h2>Página Principal (Index)</h2>
+    <p>Landing page con slider automático, catálogo de productos, descuentos y contenido multimedia.</p>
+    <img src="capturas-informe/1.png" alt="Página Principal" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Dashboard</h2>
+    <p>Resumen de pedidos por estado y estadísticas de la tienda.</p>
+    <img src="capturas-informe/2.png" alt="Dashboard Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Productos</h2>
+    <p>Gestión completa de productos con upload de imágenes.</p>
+    <img src="capturas-informe/3.png" alt="Productos Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Categorías</h2>
+    <p>CRUD de categorías con descuento por categoría.</p>
+    <img src="capturas-informe/4.png" alt="Categorías Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Cupones</h2>
+    <p>Generador de cupones de descuento (10%, 20%, 30%, 50%).</p>
+    <img src="capturas-informe/5.png" alt="Cupones Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Slides</h2>
+    <p>Gestión de slides para el slider del index (imágenes 16:9).</p>
+    <img src="capturas-informe/6.png" alt="Slides Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Contenido</h2>
+    <p>Gestión de videos de YouTube, TikTok e Instagram.</p>
+    <img src="capturas-informe/7.png" alt="Contenido Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <h2>Panel de Administración - Configuración</h2>
+    <p>Personalización de nombre, título, descripción y texto de bienvenida.</p>
+    <img src="capturas-informe/8.png" alt="Configuración Admin" style="width:100%; max-width:900px; border-radius:8px; margin:1rem 0;">
+
+    <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--border); text-align: center;">
+      <p style="font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 4px; color: var(--primary); margin-bottom: 0.5rem;">Dara Maison</p>
+      <p style="font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;">Tu identidad es tu espectáculo</p>
+      <p style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">© 2026 — Informe generado para Coil-Uniminuto-Mexico</p>
+    </div>
+
+
+
+  </div>
+
+</body>
+</html>
