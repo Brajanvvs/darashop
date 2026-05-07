@@ -49,7 +49,7 @@ if (fs.existsSync(clientDist)) {
 }
 
 const PORT = process.env.PORT || 3001;
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync().then(() => {
   console.log('Base de datos sincronizada');
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });

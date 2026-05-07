@@ -21,7 +21,7 @@ async function initDB() {
     console.log('✓ Conexión exitosa');
 
     // Sync all models
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log('✓ Base de datos sincronizada');
 
     // Check if admin exists
