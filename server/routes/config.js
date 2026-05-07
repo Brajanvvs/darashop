@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
     res.json(config);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.json({ nombre_tienda: 'Dara Maison', titulo_pagina: 'Dara Maison' });
   }
 });
 

@@ -24,6 +24,10 @@ const contenidosRoutes = require('./routes/contenidos');
 const configRoutes = require('./routes/config');
 const slidesRoutes = require('./routes/slides');
 
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/categorias', categoriasRoutes);
