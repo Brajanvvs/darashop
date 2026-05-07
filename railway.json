@@ -1,0 +1,12 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "cd client && npm install && npm run build"
+  },
+  "deploy": {
+    "startCommand": "cd server && npm install && node index.js",
+    "healthcheckPath": "/api/config",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
