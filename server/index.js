@@ -3,6 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
+console.log('=== INICIANDO SERVER (index.js) ===');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? '✓ configurada' : '✗ no configurada');
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? '✓ configurado' : '✗ no configurado');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -50,17 +54,25 @@ if (fs.existsSync(clientDist)) {
 
 const PORT = process.env.PORT || 3001;
 
-const startServer = () => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-};
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err.message, err.stack?.split('\n')[1]);
+  process.exit(1);
+});
 
-sequelize.sync()
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err.message);
+});
+
+sequelize.authenticate()
   .then(() => {
-    console.log('✓ Base de datos sincronizada');
-    startServer();
+    console.log('✓ DB connected');
+    return sequelize.sync();
+  })
+  .then(() => {
+    console.log('✓ DB synced');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => {
-    console.error('⚠ Error sincronizando DB:', err.message);
-    console.log('Iniciando servidor de todas formas...');
-    startServer();
+    console.error('FATAL ERROR:', err.message);
+    process.exit(1);
   });
