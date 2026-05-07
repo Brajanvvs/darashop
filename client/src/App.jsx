@@ -195,7 +195,7 @@ function LandingPage({ user, config, login }) {
       alert('Carrito vacío');
       return;
     }
-    const waNumber = '521XXXXXXXXXX';
+    const waNumber = config?.whatsapp_number || '521XXXXXXXXXX';
     const total = obtenerTotalConDescuentos();
     const itemsTexto = carrito.map(p => `${p.nombre} x${p.cantidad}`).join(', ');
     const mensaje = `Hola, quiero comprar: ${itemsTexto}. Total: ${formatPrice(total)}`;
@@ -1027,6 +1027,10 @@ function ConfigAdmin({ onSave }) {
         <div className="form-group">
           <label className="form-label">Texto de Bienvenida</label>
           <input className="form-input" value={form.bienvenido_texto || ''} onChange={e => setForm({...form, bienvenido_texto: e.target.value})} />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Número WhatsApp (con código de país, sin +)</label>
+          <input className="form-input" value={form.whatsapp_number || ''} onChange={e => setForm({...form, whatsapp_number: e.target.value})} placeholder="5215551234567" />
         </div>
         <button type="submit" className="btn btn-primary">Guardar Configuración</button>
       </form>
