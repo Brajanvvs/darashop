@@ -10,7 +10,9 @@ router.post('/register', async (req, res) => {
   try {
     const { nombre, email, telefono, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const usuario = await Usuario.create({ nombre, email, telefono, password: hashedPassword });
+    const adminCount = await Usuario.count({ where: { rol: 'admin' } });
+    const rol = adminCount === 0 ? 'admin' : 'cliente';
+    const usuario = await Usuario.create({ nombre, email, telefono, password: hashedPassword, rol });
     const token = jwt.sign({ id: usuario.id, rol: usuario.rol }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, email: usuario.email, rol: usuario.rol } });
   } catch (error) {
