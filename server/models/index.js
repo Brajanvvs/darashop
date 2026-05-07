@@ -20,7 +20,7 @@ const Usuario = sequelize.define('Usuario', {
   email: { type: DataTypes.STRING, unique: true },
   telefono: { type: DataTypes.STRING },
   password: { type: DataTypes.STRING },
-  rol: { type: DataTypes.ENUM('cliente', 'admin'), defaultValue: 'cliente' }
+  rol: { type: DataTypes.STRING, defaultValue: 'cliente' }
 }, { tableName: 'usuarios', timestamps: true });
 
 const Categoria = sequelize.define('Categoria', {
@@ -54,7 +54,7 @@ const Cupon = sequelize.define('Cupon', {
 
 const Pedido = sequelize.define('Pedido', {
   id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  estado: { type: DataTypes.ENUM('proceso', 'aprobado', 'enviado', 'entregado', 'rechazado', 'cancelado'), defaultValue: 'proceso' },
+  estado: { type: DataTypes.STRING, defaultValue: 'proceso' },
   total: { type: DataTypes.DECIMAL(10, 2) },
   cupon_aplicado: { type: DataTypes.STRING },
   descuento_total: { type: DataTypes.DECIMAL(10, 2) }
@@ -68,7 +68,7 @@ const PedidoItem = sequelize.define('PedidoItem', {
 
 const Contenido = sequelize.define('Contenido', {
   id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  tipo: { type: DataTypes.ENUM('tiktok', 'instagram', 'youtube'), allowNull: false },
+  tipo: { type: DataTypes.STRING, allowNull: false },
   url: { type: DataTypes.STRING, allowNull: false },
   orden: { type: DataTypes.INTEGER, defaultValue: 0 }
 }, { tableName: 'contenidos', timestamps: true });
