@@ -46,7 +46,7 @@ function App() {
       <div className="app">
         <Navbar user={user} logout={logout} config={config} />
         <Routes>
-          <Route path="/" element={<LandingPage user={user} config={config} />} />
+          <Route path="/" element={<LandingPage user={user} config={config} login={login} />} />
           <Route path="/login" element={<LoginPage onLogin={login} />} />
           <Route path="/admin" element={<AdminLayout user={user} />}>
             <Route index element={<Dashboard />} />
@@ -93,7 +93,7 @@ function Footer() {
   );
 }
 
-function LandingPage({ user, config }) {
+function LandingPage({ user, config, login }) {
   const [productos, setProductos] = useState([]);
   const [contenidos, setContenidos] = useState([]);
   const [slides, setSlides] = useState([]);
@@ -230,7 +230,7 @@ function LandingPage({ user, config }) {
 
   return (
     <div className="main">
-      {showRegister && <RegisterModal onClose={() => setShowRegister(false)} onLogin={() => { setShowRegister(false); window.location.reload(); }} />}
+      {showRegister && <RegisterModal onClose={() => setShowRegister(false)} onLogin={login} />}
       
       {slides.length > 0 ? (
         <div className="slider-container">
