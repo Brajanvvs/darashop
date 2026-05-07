@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 console.log('=== INICIANDO SERVER (index.js) ===');
 console.log('DATABASE_URL:', process.env.DATABASE_URL ? '✓ configurada' : '✗ no configurada');
@@ -36,7 +37,10 @@ app.use('/api/slides', slidesRoutes);
 const clientDist = path.join(__dirname, '../client/dist');
 const clientPublic = path.join(__dirname, '../client/public');
 const uploadsDir = path.join(__dirname, 'uploads');
-const fs = require('fs');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 app.use('/uploads', express.static(uploadsDir));
 
@@ -63,16 +67,26 @@ process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION:', err.message);
 });
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('✓ DB connected');
-    return sequelize.sync();
-  })
-  .then(() => {
-    console.log('✓ DB synced');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch(err => {
-    console.error('FATAL ERROR:', err.message);
-    process.exit(1);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
+});
+
+function connectDB(retries = 10, delay = 3000) {
+  sequelize.authenticate()
+    .then(() => {
+      console.log('✓ DB connected');
+      return sequelize.sync();
+    })
+    .then(() => {
+      console.log('✓ DB synced');
+    })
+    .catch(err => {
+      console.error(`DB connection failed (${retries} retries left):`, err.message);
+      if (retries > 0) {
+        setTimeout(() => connectDB(retries - 1, delay), delay);
+      } else {
+        console.error('FATAL: Could not connect to DB after all retries');
+      }
+    });
+}
