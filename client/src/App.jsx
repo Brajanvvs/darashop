@@ -203,18 +203,22 @@ function LandingPage({ user, config, login }) {
     const mensaje = `Hola, quiero comprar: ${itemsTexto}. Total: ${formatPrice(total)}`;
     window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(mensaje)}`, '_blank');
     
-    await axios.post(`${API}/pedidos`, {
-      items: carrito.map(p => ({ producto_id: p.id, cantidad: p.cantidad })),
-      cupon_codigo: cuponAplicado?.codigo
-    });
-    
-    if (cuponAplicado && user) {
-      await axios.put(`${API}/cupones/${cuponAplicado.codigo}`, { activo: false, usado_por: user.id });
+    try {
+      await axios.post(`${API}/pedidos`, {
+        items: carrito.map(p => ({ producto_id: p.id, cantidad: p.cantidad })),
+        cupon_codigo: cuponAplicado?.codigo
+      });
+      
+      if (cuponAplicado && user) {
+        await axios.put(`${API}/cupones/${cuponAplicado.codigo}`, { activo: false, usado_por: user.id });
+      }
+      
+      setCarrito([]);
+      setCupon('');
+      setCuponAplicado(null);
+    } catch (e) {
+      alert('Error al crear el pedido: ' + (e.response?.data?.error || e.message));
     }
-    
-    setCarrito([]);
-    setCupon('');
-    setCuponAplicado(null);
   };
 
   const getPrecio = (producto) => {
