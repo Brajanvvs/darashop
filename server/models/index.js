@@ -62,6 +62,8 @@ const Pedido = sequelize.define('Pedido', {
 
 const PedidoItem = sequelize.define('PedidoItem', {
   id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
+  producto_id: { type: DataTypes.UUID, allowNull: false },
+  pedido_id: { type: DataTypes.UUID, allowNull: false },
   cantidad: { type: DataTypes.INTEGER, defaultValue: 1 },
   precio: { type: DataTypes.DECIMAL(10, 2) }
 }, { tableName: 'pedido_items', timestamps: true });
@@ -105,5 +107,8 @@ Pedido.belongsTo(Usuario, { foreignKey: 'usuario_id' });
 
 Pedido.hasMany(PedidoItem, { foreignKey: 'pedido_id' });
 PedidoItem.belongsTo(Pedido, { foreignKey: 'pedido_id' });
+
+Producto.hasMany(PedidoItem, { foreignKey: 'producto_id' });
+PedidoItem.belongsTo(Producto, { foreignKey: 'producto_id' });
 
 module.exports = { sequelize, Usuario, Categoria, Producto, DescuentoProducto, Cupon, Pedido, PedidoItem, Contenido, Config, Slide };
