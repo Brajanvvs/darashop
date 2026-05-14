@@ -80,10 +80,10 @@ function connectDB(retries = 10, delay = 3000) {
   sequelize.authenticate()
     .then(() => {
       console.log('✓ DB connected');
-      return sequelize.sync();
+      return sequelize.sync({ alter: true });
     })
     .then(() => {
-      console.log('✓ DB synced');
+      console.log('✓ DB synced (alter: added missing columns)');
     })
     .catch(err => {
       console.error(`DB connection failed (${retries} retries left):`, err.message);
