@@ -52,12 +52,20 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary), var(--gold));
+  background: linear-gradient(135deg, var(--primary), var(--gold), var(--primary-light), var(--gold));
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 2px;
   text-transform: uppercase;
+  position: relative;
+  animation: logoShimmer 4s ease-in-out infinite;
+}
+
+@keyframes logoShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .navbar-links { display: flex; gap: 2rem; align-items: center; }
@@ -154,6 +162,7 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   padding: 6rem 2rem 4rem;
   position: relative;
+  overflow: hidden;
   background: linear-gradient(180deg, var(--secondary) 0%, var(--background) 100%);
 }
 
@@ -166,6 +175,26 @@ a { color: inherit; text-decoration: none; }
   width: 1px;
   height: 80px;
   background: linear-gradient(180deg, transparent, var(--primary));
+  z-index: 1;
+}
+
+.hero-static::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(231, 0, 116, 0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 50%, rgba(212, 165, 116, 0.04) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 50%, rgba(231, 0, 116, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  animation: heroGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
 }
 
 .titulo-animado {
@@ -174,15 +203,40 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   letter-spacing: 6px;
   text-transform: uppercase;
-  background: linear-gradient(135deg, var(--text) 0%, var(--primary) 50%, var(--gold) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--primary) 30%, var(--gold) 50%, var(--primary) 70%, var(--text) 100%);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 1rem;
+  animation: titleShimmer 5s ease-in-out infinite;
+  position: relative;
+  display: inline-block;
+}
+
+.titulo-animado::before {
+  content: '';
+  position: absolute;
+  inset: -20px -40px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(231, 0, 116, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  animation: titlePulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes titleShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes titlePulse {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
 }
 
 .cursor {
   animation: blink 0.7s steps(1) infinite;
+  -webkit-text-fill-color: var(--primary);
   color: var(--primary);
 }
 
@@ -716,6 +770,19 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-muted);
   border-top: 1px solid rgba(255,255,255,0.05);
   margin-top: auto;
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--gold), var(--primary-light));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logoShimmer 4s ease-in-out infinite;
 }
 
 /* BADGES */

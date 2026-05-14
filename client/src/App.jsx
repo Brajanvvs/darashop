@@ -88,7 +88,7 @@ function Navbar({ user, logout, config }) {
 function Footer() {
   return (
     <footer className="footer">
-      <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.3rem', letterSpacing: '3px', marginBottom: '0.5rem', color: 'var(--text)' }}>Dara Maison</p>
+      <p className="footer-logo">Dara Maison</p>
       <p style={{ fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Tu identidad es tu espectáculo</p>
       <p style={{ marginTop: '1rem', fontSize: '0.75rem' }}>© 2026 Todos los derechos reservados</p>
     </footer>
