@@ -76,21 +76,38 @@ app.listen(PORT, () => {
   connectDB();
 });
 
-function connectDB(retries = 10, delay = 3000) {
-  sequelize.authenticate()
-    .then(() => {
-      console.log('✓ DB connected');
-      return sequelize.sync({ alter: true });
-    })
-    .then(() => {
-      console.log('✓ DB synced (alter: added missing columns)');
-    })
-    .catch(err => {
-      console.error(`DB connection failed (${retries} retries left):`, err.message);
-      if (retries > 0) {
-        setTimeout(() => connectDB(retries - 1, delay), delay);
-      } else {
-        console.error('FATAL: Could not connect to DB after all retries');
-      }
-    });
+async function runMigrations() {
+  const cols = [
+    'ALTER TABLE pedido_items ADD COLUMN IF NOT EXISTS producto_id UUID;',
+    'ALTER TABLE pedido_items ADD COLUMN IF NOT EXISTS pedido_id UUID;',
+    'ALTER TABLE config ADD COLUMN IF NOT EXISTS whatsapp_number VARCHAR(255) DEFAULT \'521XXXXXXXXXX\';',
+    'ALTER TABLE config ADD COLUMN IF NOT EXISTS quienes_somos TEXT DEFAULT \'\';',
+    'ALTER TABLE config ADD COLUMN IF NOT EXISTS mision TEXT DEFAULT \'\';',
+    'ALTER TABLE config ADD COLUMN IF NOT EXISTS vision TEXT DEFAULT \'\';'
+  ];
+  for (const sql of cols) {
+    try {
+      await sequelize.query(sql);
+    } catch (e) {
+      console.log(`Migration skipped: ${e.message.slice(0, 60)}`);
+    }
+  }
+  console.log('✓ Migrations applied');
+}
+
+async function connectDB(retries = 10, delay = 3000) {
+  try {
+    await sequelize.authenticate();
+    console.log('✓ DB connected');
+    await sequelize.sync();
+    console.log('✓ Tables synced');
+    await runMigrations();
+  } catch (err) {
+    console.error(`DB error (${retries} retries left):`, err.message);
+    if (retries > 0) {
+      setTimeout(() => connectDB(retries - 1, delay), delay);
+    } else {
+      console.error('FATAL: Could not connect to DB after all retries');
+    }
+  }
 }
