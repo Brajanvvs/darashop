@@ -58,6 +58,7 @@ function App() {
             <Route path="config" element={<ConfigAdmin onSave={recargarConfig} />} />
           </Route>
           <Route path="/usuario/:id" element={<UsuarioPanel user={user} />} />
+          <Route path="/nosotros" element={<AboutUs config={config} />} />
         </Routes>
         <Footer />
       </div>
@@ -71,6 +72,7 @@ function Navbar({ user, logout, config }) {
       <Link to="/" className="navbar-logo">{config?.nombre_tienda || 'Coil'}</Link>
       <div className="navbar-links">
         <Link to="/" className="nav-link">Tienda</Link>
+        <Link to="/nosotros" className="nav-link">Nosotros</Link>
         {user?.rol === 'admin' && <Link to="/admin" className="nav-link">Admin</Link>}
         {user && user.rol !== 'admin' && <Link to={`/usuario/${user.id}`} className="nav-link">Mis Compras</Link>}
         {user ? (
@@ -1032,6 +1034,18 @@ function ConfigAdmin({ onSave }) {
           <label className="form-label">Número WhatsApp (con código de país, sin +)</label>
           <input className="form-input" value={form.whatsapp_number || ''} onChange={e => setForm({...form, whatsapp_number: e.target.value})} placeholder="5215551234567" />
         </div>
+        <div className="form-group">
+          <label className="form-label">Quiénes Somos</label>
+          <textarea className="form-textarea" rows="6" value={form.quienes_somos || ''} onChange={e => setForm({...form, quienes_somos: e.target.value})} placeholder="Describe tu marca..." />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Misión</label>
+          <textarea className="form-textarea" rows="4" value={form.mision || ''} onChange={e => setForm({...form, mision: e.target.value})} placeholder="Misión de la empresa..." />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Visión</label>
+          <textarea className="form-textarea" rows="4" value={form.vision || ''} onChange={e => setForm({...form, vision: e.target.value})} placeholder="Visión de la empresa..." />
+        </div>
         <button type="submit" className="btn btn-primary">Guardar Configuración</button>
       </form>
     </div>
@@ -1168,6 +1182,47 @@ function UsuarioPanel({ user }) {
           </div>
         ))
       )}
+    </div>
+  );
+}
+
+function AboutUs({ config }) {
+  return (
+    <div className="about-page">
+      <div className="about-hero">
+        <div className="about-hero-content">
+          <span className="about-badge">Sobre Nosotros</span>
+          <h1 className="about-hero-title">{config?.nombre_tienda || 'Dara Maison'}</h1>
+          <div className="about-divider"><span></span></div>
+        </div>
+      </div>
+
+      <div className="about-section">
+        <div className="about-card about-card-full">
+          <div className="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h2 className="about-card-title">Quiénes Somos</h2>
+          <p className="about-card-text">{config?.quienes_somos || 'Somos una marca comprometida con la excelencia y la innovación, dedicada a ofrecer productos y experiencias únicas que transforman la manera en que nuestros clientes se expresan.'}</p>
+        </div>
+      </div>
+
+      <div className="about-section about-section-split">
+        <div className="about-card">
+          <div className="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h2 className="about-card-title">Misión</h2>
+          <p className="about-card-text">{config?.mision || 'Nuestra misión es brindar productos de alta calidad que inspiren y empoderen a las personas, combinando diseño innovador con un servicio excepcional que supere las expectativas de nuestros clientes.'}</p>
+        </div>
+        <div className="about-card">
+          <div className="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 12h3"/><path d="M19 12h3"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M5.636 5.636l1.414 1.414"/><path d="M16.95 16.95l1.414 1.414"/><path d="M5.636 18.364l1.414-1.414"/><path d="M16.95 7.05l1.414-1.414"/></svg>
+          </div>
+          <h2 className="about-card-title">Visión</h2>
+          <p className="about-card-text">{config?.vision || 'Ser reconocidos como una marca líder que redefine los estándares de calidad y creatividad, creando un impacto positivo y duradero en la vida de las personas y en la industria.'}</p>
+        </div>
+      </div>
     </div>
   );
 }

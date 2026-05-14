@@ -79,7 +79,10 @@ const Config = sequelize.define('Config', {
   titulo_pagina: { type: DataTypes.STRING, defaultValue: 'Dara Maison - Tu identidad es tu espectáculo' },
   descripcion: { type: DataTypes.TEXT, defaultValue: 'No vendemos productos; transformamos el aura de los grandes íconos musicales en experiencias tangibles de alta actitud.' },
   bienvenido_texto: { type: DataTypes.STRING, defaultValue: 'Dara Maison' },
-  whatsapp_number: { type: DataTypes.STRING, defaultValue: '521XXXXXXXXXX' }
+  whatsapp_number: { type: DataTypes.STRING, defaultValue: '521XXXXXXXXXX' },
+  quienes_somos: { type: DataTypes.TEXT, defaultValue: '' },
+  mision: { type: DataTypes.TEXT, defaultValue: '' },
+  vision: { type: DataTypes.TEXT, defaultValue: '' }
 }, { tableName: 'config', timestamps: true });
 
 const Slide = sequelize.define('Slide', {
